@@ -175,7 +175,7 @@ class ConfigGenerator extends ApplicationGenerator {
 	«paramConfig("log_path","/var/logs")»
 	«paramConfig("helpurl", "http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}")»
 	«paramConfig("force_ssl",valueParser(isEmpty(systemconf.force_ssl.toString, "none")))»
-	«paramConfig("offset",isEmpty(systemconf.server_time_zone.continent,"UTC"))»
+	«paramConfig("offset", isEmpty(searchattribut(systemconf.server_time_zone,"country"),"UTC"))»
 	«paramConfig("tmp_path","/tmp")»
 	«paramConfig("gzip", valueParser("no"))»
 	«paramConfig("error_reporting", valueParser(isEmpty(systemconf.error_reporting_type.toString, "default")))»

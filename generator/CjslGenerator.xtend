@@ -47,22 +47,29 @@ public final static String DEFAULT_OUTPUT_ONCE = "DEFAULT_OUTPUT_ONCE";
 
 	 for(e: resource.allContents.toIterable.filter(typeof(Application))) {
 	 	
-	 	genData.setOutputConfigurations(mapOutputConfigurations(e.name, e.applicationPath))
-	 	var ConfigGenerator conf = new ConfigGenerator(genData, e)
-	 	var SQLGenerator sqldata = new SQLGenerator(genData, e)
+	 	
+	 	
 	 	var File joomlaPath = new File(e.joomlaPath)
-	 	var File applicationDestinatination = new File(e.applicationPath + "/" + e.name) 
-	 	if(!applicationDestinatination.exists){
-	 	   
+	 	var String appsname = e.name
+	 	var File applicationDestinatination = new File(e.applicationPath + "/" + appsname) 
+	 	var int counter = 1
+	 	while(applicationDestinatination.exists){
+	 		appsname = e.name + "_" + counter
+	 		applicationDestinatination = new File(e.applicationPath + "/" + appsname) 
+	 		counter = counter +1
+	 	}
+	 	 var ConfigGenerator conf = new ConfigGenerator(genData, e)
+	 	var SQLGenerator sqldata = new SQLGenerator(genData, e,appsname ) 
+	 	genData.setOutputConfigurations(mapOutputConfigurations(appsname, e.applicationPath))
 	 	if(joomlaPath.exists){
 	 	conf.extractArchive(joomlaPath,applicationDestinatination )
 	 	conf.generateConfig
-	 	//sqldata.generateSQLData
+	 	sqldata.generateSQLData
 	 	}
 	 	else{
 	 		throw new FileNotFoundException("The Source Path of Joomla not found")
 	 	}
-	 }	
+	 	
 	}
 			
 			

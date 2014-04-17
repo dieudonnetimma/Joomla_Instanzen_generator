@@ -18,20 +18,38 @@ class SQLGenerator extends ApplicationGenerator {
 	public cJSL_Configuration config;
 	public db_Conf dbconfig
 	public UserGenerator users 
-	new (IFileSystemAccess acc, Application app){
+	new (IFileSystemAccess acc, Application app, String appname){
 		
 		this.fpa = acc;
 		this.app = app;
 		this.config = app.cjsl_configuration
 		dbconfig = config.db_conf
-		pathDestinationRoot = app.applicationPath + "/" +app.name
+		pathDestinationRoot = app.applicationPath + "/" +appname
+		users = new UserGenerator(app)
 		}
+
+new(IFileSystemAccess access, Application application) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+
 	
 	def generateSQLData() {
 		
 		fpa.generateFile("mddsql/application.sql", contentGen())
+		fpa.generateFile("mddsql/user.sql", usercontengen())
 		deleteFolder(new File(pathDestinationRoot+"/installation"))
 	}
+
+def CharSequence usercontengen()'''
+#--------------------------------------------------------------User-----------------------------------------------------------
+	« users.generateAllUser»
+	
+	«users.generateUserProfile»
+	«users.generateGroups(orderGroup(app.cjsl_user.usergroups))»
+	«users.generateUserGroupsMap»
+	«users.generateViewLevel»
+'''
+	
 	
 	def CharSequence contentGen()'''
 	«if (dbconfig.dbtype.toString.equals("mysql") || dbconfig.dbtype.toString.equals("mysqli")) 
@@ -43,8 +61,6 @@ class SQLGenerator extends ApplicationGenerator {
 	«readSql(pathDestinationRoot+"/installation/sql/mysql/sample_data.sql")»
 	«ENDIF»
 	»
-	#--------------------------------------------------------------User-----------------------------------------------------------
-	« users.generateAllUser »	
 	'''
 	
 	def String readSql( String path){

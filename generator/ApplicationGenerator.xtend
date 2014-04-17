@@ -1,28 +1,34 @@
 package de.thm.icampus.cjsl.generator
 
 import de.thm.icampus.cjsl.cjsl.DefaultEditor
+import de.thm.icampus.cjsl.cjsl.DefaultLanguage
 import de.thm.icampus.cjsl.cjsl.DefaultViewLevelReference
 import de.thm.icampus.cjsl.cjsl.EditorReference
 import de.thm.icampus.cjsl.cjsl.EditorType
 import de.thm.icampus.cjsl.cjsl.LanguageReference
+import de.thm.icampus.cjsl.cjsl.LanguageType
 import de.thm.icampus.cjsl.cjsl.Template
+import de.thm.icampus.cjsl.cjsl.TimeZone
+import de.thm.icampus.cjsl.cjsl.UserGroup
 import de.thm.icampus.cjsl.cjsl.ViewLevel
 import de.thm.icampus.cjsl.cjsl.ViewLevelRights
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Calendar
 import java.util.Enumeration
+import java.util.LinkedList
+import java.util.Random
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
-import de.thm.icampus.cjsl.cjsl.LanguageType
-import de.thm.icampus.cjsl.cjsl.DefaultLanguage
-import java.util.Calendar
-import java.util.Random
+import de.thm.icampus.cjsl.generator.Util
 
-class ApplicationGenerator {
+abstract class ApplicationGenerator {
+	
+var Util uti = new Util
 	
 	def String isEmpty(String paramsValue, String defaultval){
 		
@@ -140,7 +146,12 @@ def  int getTemplateid(Template temp, EList<Template> listTemplate){
 			
 			case "smtp":
 					return "smtp"
-		  
+			case "inherited":
+					return " "
+			case "accepted":
+		  		return 1 +""
+		   case "denied":
+		      return 0 +""
 		}
 		return 0 +""
 	}
@@ -162,7 +173,8 @@ def  int getTemplateid(Template temp, EList<Template> listTemplate){
 	
 	def String selectedEdit(EditorType editTyp){
 	
-	
+	if(editTyp == null)
+	 return "tinymce"
 		
 		if(editTyp.eClass.name.equals("EditorReference")){
 			
@@ -375,5 +387,75 @@ public def  String genaratePass(){
 		
 		return result;
 	}
+	
+
+ def  String searchattribut (EObject element, String attribut){
+	// TODO Auto-generated method stub
+	
+	if(element==null)
+	return new String;
+	
+	if (element.eClass.name.toString.toLowerCase.equals("timezone")) {
+	 	var TimeZone elem = element as TimeZone;
+		
+			switch (attribut) {
+			case "country":
+			  return elem.country
+			case "continent":
+				return elem.continent
+			default  :
+				return elem.getName()
+				
+			}	
+		
+	}
+	if (element.eClass.name.toString.toLowerCase.equals("usergroup")) {
+	 	var UserGroup elem = element as UserGroup;
+		
+			switch (attribut) {
+			case "name":
+			  return elem.name
+			 case "rgt":
+			  return elem.rgt + ""
+			 case "lft":
+			  return elem.lft + ""
+			default  :
+				return " "
+				
+			}	
+		
+	}
+	return null;
+}
+
+public def int orderGroup(EList<UserGroup> groups) {
+	
+	var int maxrgt = 16
+	
+	for(UserGroup g: groups){
+		if(g.parent == null){
+			
+			g.setLft(maxrgt)
+			maxrgt = uti.buildthegroups(groups, g, uti.searchAllkids(groups, g), maxrgt+1 ,0) 
+			g.setRgt(maxrgt);
+			maxrgt = maxrgt +1
+		
+		}
+	}
+   
+   return maxrgt
+  
+}
+ 
+ public def int indexOf(EObject e, EList<?> list, int startValue, int defaultValue){
+ 	if(e == null)
+ 	return defaultValue
+ 	
+ 	if(list.indexOf(e) == -1)
+ 	return defaultValue
+ 	
+ 	return list.indexOf(e)+startValue
+ }
+
 	
 }
