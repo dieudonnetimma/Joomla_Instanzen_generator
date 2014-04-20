@@ -12,19 +12,22 @@ import de.thm.icampus.cjsl.cjsl.TimeZone
 import de.thm.icampus.cjsl.cjsl.UserGroup
 import de.thm.icampus.cjsl.cjsl.ViewLevel
 import de.thm.icampus.cjsl.cjsl.ViewLevelRights
+import de.thm.icampus.cjsl.generator.Util
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Calendar
+import java.util.Collection
 import java.util.Enumeration
+import java.util.HashMap
 import java.util.LinkedList
 import java.util.Random
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.EObject
-import de.thm.icampus.cjsl.generator.Util
 
 abstract class ApplicationGenerator {
 	
@@ -428,12 +431,37 @@ public def  String genaratePass(){
 	return null;
 }
 
-public def int orderGroup(EList<UserGroup> groups) {
+public def  EList<BaumElement> transformArtefact(EList<? extends EObject> artefact){
+	
+	if(artefact == null)
+	 return null
+	 
+	 var EList<BaumElement> result = new BasicEList<BaumElement>()
+	 
+	 if( artefact.get(0).eClass.name.toString.toLowerCase.equals("usergroup")){
+	   var EList<UserGroup> groups = artefact as EList<UserGroup>
+	   
+		 for(UserGroup g: groups){
+		 	if(g.parent != null){
+	 	   result.addAll(new BaumElement(groups.indexOf(g),groups.indexOf(g.parent)))
+	 	   
+	 	   }else{
+	 	   	 result.addAll(new BaumElement(groups.indexOf(g),-1))
+	 	   	
+	 	   }
+		 }
+		 }
+		 var int max = orderGroup(result);
+		 var BaumElement maxrgt = new BaumElement(-1,max);
+		 result.add(maxrgt);
+	 return  result ;
+}
+  public def int orderGroup(EList<BaumElement> groups) {
 	
 	var int maxrgt = 16
 	
-	for(UserGroup g: groups){
-		if(g.parent == null){
+	for(BaumElement g: groups){
+		if(g.parent == -1){
 			
 			g.setLft(maxrgt)
 			maxrgt = uti.buildthegroups(groups, g, uti.searchAllkids(groups, g), maxrgt+1 ,0) 
@@ -445,6 +473,15 @@ public def int orderGroup(EList<UserGroup> groups) {
    
    return maxrgt
   
+}
+
+public def BaumElement searchElem(EList<BaumElement> list, int id){
+	var BaumElement result = new BaumElement()
+	for(BaumElement b : list){
+		if(b.id == id)
+		result = b
+	}
+	return result
 }
  
  public def int indexOf(EObject e, EList<?> list, int startValue, int defaultValue){

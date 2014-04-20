@@ -6,6 +6,8 @@ import de.thm.icampus.cjsl.cjsl.Application
 import de.thm.icampus.cjsl.cjsl.cJSL_Configuration
 import de.thm.icampus.cjsl.cjsl.UserGroup
 import de.thm.icampus.cjsl.cjsl.ViewLevel
+import java.util.logging.Handler
+import java.util.HashMap
 
 class UserGenerator extends ApplicationGenerator {
 	
@@ -15,6 +17,8 @@ class UserGenerator extends ApplicationGenerator {
 	Application app
 	EList<UserGroup> groups
 	EList<ViewLevel> views
+	int startIndexUser
+	int startIndexGroup
 
 new( Application apps) {
 		
@@ -54,16 +58,16 @@ new( Application apps) {
    «ENDFOR»
    «ENDFOR»'''
    
-   public def CharSequence generateGroups(int maxrgt)'''
+   public def CharSequence generateGroups(EList<BaumElement> baum)'''
    
-   UPDATE `#__usergroups` SET `rgt` = «maxrgt» WHERE `id` =1;
+   UPDATE `#__usergroups` SET `rgt` = «searchElem(baum, -1).parent» WHERE `id` =1;
    
    INSERT INTO `#__usergroups` ( `parent_id`, `lft`, `rgt`, `title`) VALUES 
    «FOR group: groups»
    «IF(group.equals(groups.get(groups.size-1)))»
-   ('«indexOf(group.parent,groups,9,1)»', '«group.lft»', '«group.rgt»', '«group.name»');
+   ('«indexOf(group.parent,groups,9,1)»', '«searchElem(baum, groups.indexOf(group)).lft»', '«searchElem(baum, groups.indexOf(group)).rgt»', '«group.name»');
    «ELSE»
-   ('«indexOf(group.parent,groups,9,1)»', '«group.lft»', '«group.rgt»', '«group.name»'),
+   ('«indexOf(group.parent,groups,9,1)»', '«searchElem(baum, groups.indexOf(group)).lft»', '«searchElem(baum, groups.indexOf(group)).rgt»', '«group.name»'),
    «ENDIF»
    «ENDFOR»'''
    

@@ -45,7 +45,7 @@ def CharSequence usercontengen()'''
 	« users.generateAllUser»
 	
 	«users.generateUserProfile»
-	«users.generateGroups(orderGroup(app.cjsl_user.usergroups))»
+	«users.generateGroups(transformArtefact(app.cjsl_user.usergroups))»
 	«users.generateUserGroupsMap»
 	«users.generateViewLevel»
 '''

@@ -1,33 +1,14 @@
 package de.thm.icampus.cjsl.generator;
 
-import de.thm.icampus.cjsl.cjsl.DefaultEditor;
-import de.thm.icampus.cjsl.cjsl.DefaultLanguage;
-import de.thm.icampus.cjsl.cjsl.DefaultViewLevelReference;
-import de.thm.icampus.cjsl.cjsl.EditorReference;
-import de.thm.icampus.cjsl.cjsl.EditorType;
-import de.thm.icampus.cjsl.cjsl.LanguageReference;
-import de.thm.icampus.cjsl.cjsl.LanguageType;
-import de.thm.icampus.cjsl.cjsl.Template;
-import de.thm.icampus.cjsl.cjsl.TimeZone;
-import de.thm.icampus.cjsl.cjsl.UserGroup;
-import de.thm.icampus.cjsl.cjsl.ViewLevel;
-import de.thm.icampus.cjsl.cjsl.ViewLevelRights;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+
+import de.thm.icampus.cjsl.cjsl.UserGroup;
 
 public class Util {
 	
-	public  int inkrementAll(UserGroup g, int rgt){
+	public  int inkrementAll(BaumElement g, int rgt){
 		g.setLft(rgt);
 		g.setRgt(rgt+1);
 		
@@ -36,24 +17,24 @@ public class Util {
 	}
 
 
-	public  int inkrementLgt(UserGroup g, int rgt){
+	public  int inkrementLgt(BaumElement g, int rgt){
 		g.setLft(rgt);	
 		return rgt+1;
 	}
-	public  int inkrementRgt(UserGroup g, int rgt){
+	public  int inkrementRgt(BaumElement g, int rgt){
 		g.setRgt(rgt);	
 		return rgt+1;
 	}
-	public  LinkedList<UserGroup> searchAllkids(EList<UserGroup>groups, UserGroup parent){
+	public  LinkedList<BaumElement> searchAllkids(EList<BaumElement>groups, BaumElement parent){
 		
-		 LinkedList<UserGroup> result = new LinkedList<UserGroup>();
+		 LinkedList<BaumElement> result = new LinkedList<BaumElement>();
 		
 		if(groups == null)
 		return result;
 		
-		for(UserGroup g: groups ){
-			if(g.getParent() != null){
-				if(g.getParent() .getName().equals(parent.getName()))
+		for(BaumElement g: groups ){
+			if(g.getParent() != -1){
+				if(g.getParent() == parent.getId())
 			      result.add(g);
 			  
 			  }
@@ -64,7 +45,7 @@ public class Util {
 	}
 
 
-	public  int buildthegroups(EList<UserGroup> groups, UserGroup parent,LinkedList<UserGroup> kids, int rgt, int index){
+	public  int buildthegroups(EList<BaumElement> groups, BaumElement parent,LinkedList<BaumElement> kids, int rgt, int index){
 		
 	if (kids.size() <= index)
 		return rgt;
