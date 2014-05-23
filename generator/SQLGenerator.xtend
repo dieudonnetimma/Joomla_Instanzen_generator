@@ -42,25 +42,24 @@ new(IFileSystemAccess access, Application application) {
 
 def CharSequence usercontengen()'''
 #--------------------------------------------------------------User-----------------------------------------------------------
-	Â« users.generateAllUserÂ»
+	« users.generateAllUser»
 	
-	Â«users.generateUserProfileÂ»
-	Â«users.generateGroups(transformArtefact(app.cjsl_user.usergroups))Â»
-	Â«users.generateUserGroupsMapÂ»
-	Â«users.generateViewLevelÂ»
+	«users.generateUserProfile»
+	«users.generateGroups(transformArtefact(app.cjsl_user.usergroups))»
+	«users.generateUserGroupsMap»
+	«users.generateViewLevel»
 '''
 	
 	
 	def CharSequence contentGen()'''
-	Â«if (dbconfig.dbtype.toString.equals("mysql") || dbconfig.dbtype.toString.equals("mysqli")) 
-	readSql(pathDestinationRoot+"/installation/sql/mysql/joomla.sql") Â»
-	Â«if (dbconfig.dbtype.toString.equals("sqlsrv")) 
-	readSql(pathDestinationRoot+"/installation/sql/sqlazure/joomla.sql") Â»
-	Â«IF (config.website_conf.exampledata.equals("yes"))Â»
+	«if (dbconfig.dbtype.toString.equals("mysql") || dbconfig.dbtype.toString.equals("mysqli")) 
+	readSql(pathDestinationRoot+"/installation/sql/mysql/joomla.sql") »
+	«if (dbconfig.dbtype.toString.equals("sqlsrv")) 
+	readSql(pathDestinationRoot+"/installation/sql/sqlazure/joomla.sql") »
+	«IF (config.website_conf.exampledata.equals("yes"))»
 	#--------------------------------------------------------------Sample Data ---------------------------------------------------
-	Â«readSql(pathDestinationRoot+"/installation/sql/mysql/sample_data.sql")Â»
-	Â«ENDIFÂ»
-	Â»
+	«readSql(pathDestinationRoot+"/installation/sql/mysql/sample_data.sql")»
+	«ENDIF»
 	'''
 	
 	def String readSql( String path){

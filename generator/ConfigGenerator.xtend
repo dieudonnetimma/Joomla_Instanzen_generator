@@ -34,11 +34,11 @@ class ConfigGenerator extends ApplicationGenerator {
 	<?php
 	class JConfig {
 	
-	Â«genWebsite_Conf(configuration.website_conf)Â»
-	Â«genDB_Conf(configuration.db_conf)Â»
-	Â«if(configuration.system_conf != null)genSystem_Conf(configuration.system_conf) else genDefaultSystem_conf()Â»
-	Â« if(configuration.ftp_conf != null) genFTP_Conf(configuration.ftp_conf)else genDefaultFTP_Conf()Â»
-	Â« if(configuration.mailer_conf != null)  genMailer_Conf(configuration.mailer_conf) else genDefaultMailer_Conf() Â»
+	«genWebsite_Conf(configuration.website_conf)»
+	«genDB_Conf(configuration.db_conf)»
+	«if(configuration.system_conf != null)genSystem_Conf(configuration.system_conf) else genDefaultSystem_conf()»
+	« if(configuration.ftp_conf != null) genFTP_Conf(configuration.ftp_conf)else genDefaultFTP_Conf()»
+	« if(configuration.mailer_conf != null)  genMailer_Conf(configuration.mailer_conf) else genDefaultMailer_Conf() »
 	}
 	'''
 	
@@ -83,67 +83,67 @@ class ConfigGenerator extends ApplicationGenerator {
 	'''
 	
 	def CharSequence paramConfig(String name, String value)'''
-	public $Â«nameÂ» = 'Â«valueÂ»';
+	public $«name» = '«value»';
 	'''
 	def CharSequence paramConfig(String name, int value)'''
-	public $Â«nameÂ» = 'Â«valueÂ»';
+	public $«name» = '«value»';
 	'''
 	
 	def CharSequence genWebsite_Conf(website_Conf website)'''
-	Â«paramConfig("sitename", website.pagetitle)Â»
-	Â«paramConfig("offline",isEmpty(valueParser(website.offline+""),"0"))Â»
-	Â«paramConfig("offline_message",isEmpty(website.offline_message,"Diese Website ist zurzeit im Wartungsmodus.<br />Bitte spÃ¤ter wiederkommen."))Â»
-	Â«paramConfig("offline_image", website.offline_image)Â»
-	Â«paramConfig("captcha", "0")Â»
-	Â«paramConfig("editor", selectedEdit(website.editor))Â»
-	Â«paramConfig("display_offline_message", isEmpty(website.offline_message))Â»
-	Â«paramConfig("list_limit",0)Â»
-	Â«paramConfig("access", isEmpty(selectedSiteacess(website.site_access, app.cjsl_user.viewlevel),"1"))Â»
-	Â«paramConfig("feed_email", "site")Â»
-	Â«paramConfig("cookie_domain", "")Â»
-	Â«paramConfig("cookie_path", "")Â»
-	Â«paramConfig("MetaDesc", website.description)Â»
-	Â«paramConfig("MetaKeys",website.keyword.toString)Â»
+	«paramConfig("sitename", website.pagetitle)»
+	«paramConfig("offline",isEmpty(valueParser(website.offline+""),"0"))»
+	«paramConfig("offline_message",isEmpty(website.offline_message,"Diese Website ist zurzeit im Wartungsmodus.<br />Bitte später wiederkommen."))»
+	«paramConfig("offline_image", website.offline_image)»
+	«paramConfig("captcha", "0")»
+	«paramConfig("editor", selectedEdit(website.editor))»
+	«paramConfig("display_offline_message", isEmpty(website.offline_message))»
+	«paramConfig("list_limit",0)»
+	«paramConfig("access", isEmpty(selectedSiteacess(website.site_access, app.cjsl_user.viewlevel),"1"))»
+	«paramConfig("feed_email", "site")»
+	«paramConfig("cookie_domain", "")»
+	«paramConfig("cookie_path", "")»
+	«paramConfig("MetaDesc", website.description)»
+	«paramConfig("MetaKeys",website.keyword.toString)»
 	public $MetaTitle = '1';
-	Â«paramConfig("MetaAuthor",valueParser(isEmpty(website.show_author_meta_tag, "yes").toString))Â»
-	Â«paramConfig("MetaVersion", valueParser(isEmpty(website.show_joomla_version, "no").toString))Â»
-	Â«paramConfig("robots",valueParser(isEmpty(website.robot.toString,"index, follow").toString))Â»
-	Â«paramConfig("sef", isEmpty(website.use_sef,"1"))Â»
-	Â«paramConfig("sef_rewrite", valueParser(isEmpty(website.url_rewrite, "0")))Â»
-	Â«paramConfig("sef_suffix", "0")Â»
-	Â«paramConfig("unicodeslugs", "0")Â»
-	Â«paramConfig("feed_limit", 10)Â»
-	Â«paramConfig("MetaRights", "")Â»
-	Â«paramConfig("sitename_pagetitles", valueParser(isEmpty(website.include_site_name_in_page_titles.toString,'no').toString))Â»
+	«paramConfig("MetaAuthor",valueParser(isEmpty(website.show_author_meta_tag, "yes").toString))»
+	«paramConfig("MetaVersion", valueParser(isEmpty(website.show_joomla_version, "no").toString))»
+	«paramConfig("robots",valueParser(isEmpty(website.robot.toString,"index, follow").toString))»
+	«paramConfig("sef", isEmpty(website.use_sef,"1"))»
+	«paramConfig("sef_rewrite", valueParser(isEmpty(website.url_rewrite, "0")))»
+	«paramConfig("sef_suffix", "0")»
+	«paramConfig("unicodeslugs", "0")»
+	«paramConfig("feed_limit", 10)»
+	«paramConfig("MetaRights", "")»
+	«paramConfig("sitename_pagetitles", valueParser(isEmpty(website.include_site_name_in_page_titles.toString,'no').toString))»
 	'''
 	
 	def CharSequence genDB_Conf(db_Conf dbconf)'''
-	Â«paramConfig("dbtype", dbconf.dbtype.toString)Â»
-	Â«paramConfig("host", isEmpty(dbconf.host.toString,"localhost"))Â»
-	Â«paramConfig("user",isEmpty(dbconf.user, "root"))Â»
-	Â«paramConfig("password", dbconf.password.toString)Â»
-	Â«paramConfig("db", dbconf.database)Â»
-	Â«paramConfig("dbprefix", dbconf.prefix)Â»
+	«paramConfig("dbtype", dbconf.dbtype.toString)»
+	«paramConfig("host", isEmpty(dbconf.host.toString,"localhost"))»
+	«paramConfig("user",isEmpty(dbconf.user, "root"))»
+	«paramConfig("password",dbconf.password.toString)»
+	«paramConfig("db", dbconf.database)»
+	«paramConfig("dbprefix", dbconf.prefix)»
 	'''
 	
 	def CharSequence genFTP_Conf(ftp_Conf ftpconf)'''
-	Â«paramConfig("ftp_host", ftpconf.host.toString)Â»
-	Â«paramConfig("ftp_port", ftpconf.port)Â»
-	Â«paramConfig("ftp_user", ftpconf.ftp_user)Â»
-	Â«paramConfig("ftp_pass",ftpconf.ftp_pass)Â»
-	Â«paramConfig("ftp_root",isEmpty(ftpconf.root_path,"root"))Â»
-	Â«paramConfig("ftp_enable",valueParser(isEmpty(ftpconf.host)))Â»
+	«paramConfig("ftp_host", ftpconf.host.toString)»
+	«paramConfig("ftp_port", ftpconf.port)»
+	«paramConfig("ftp_user", ftpconf.ftp_user)»
+	«paramConfig("ftp_pass",ftpconf.ftp_pass)»
+	«paramConfig("ftp_root",isEmpty(ftpconf.root_path,"root"))»
+	«paramConfig("ftp_enable",valueParser(isEmpty(ftpconf.host)))»
 	'''
 	
 	def CharSequence genMailer_Conf(mailer_Conf mailerconf)'''
-	Â«paramConfig("mailer", valueParser(isEmpty(mailerconf.mailer.getName(),"php mail")))Â»
-	Â«paramConfig("mailfrom", mailerconf.mail_from)Â»
-	Â«paramConfig("fromname", mailerconf.name_from)Â»
-	Â«paramConfig("sendmail", isEmpty(mailerconf.sendmail_path, "/usr/sbin/sendmail"))Â»
-	Â«if(mailerconf.smtpconfig != null) {genSMTP_conf(mailerconf.smtpconfig)}
+	«paramConfig("mailer", valueParser(isEmpty(mailerconf.mailer.getName(),"php mail")))»
+	«paramConfig("mailfrom", mailerconf.mail_from)»
+	«paramConfig("fromname", mailerconf.name_from)»
+	«paramConfig("sendmail", isEmpty(mailerconf.sendmail_path, "/usr/sbin/sendmail"))»
+	«if(mailerconf.smtpconfig != null) {genSMTP_conf(mailerconf.smtpconfig)}
 	else
 	genDefaultSMTP_conf()
-	Â»
+	»
 	'''
 	
 	
@@ -156,29 +156,29 @@ class ConfigGenerator extends ApplicationGenerator {
 	public $smtpport = '25';
 	'''
 	def CharSequence genSMTP_conf(smtp_Conf conf) '''
-	Â«paramConfig("smtpauth",valueParser(isEmpty(conf.smtp_auth, "no")))Â»
-	Â«paramConfig("smtpuser", conf.smtp_username)Â»
-	Â«paramConfig("smtppass", conf.smtp_password)Â»
-	Â«paramConfig("smtphost", isEmpty(conf.smtp_host.toString,"localhost"))Â»
-	Â«paramConfig("smtpport", isEmpty(conf.smtp_port,25))Â»
-	Â«paramConfig("smtpsecure",isEmpty(conf.smtp_security.getName(),"ssl"))Â»
+	«paramConfig("smtpauth",valueParser(isEmpty(conf.smtp_auth, "no")))»
+	«paramConfig("smtpuser", conf.smtp_username)»
+	«paramConfig("smtppass", conf.smtp_password)»
+	«paramConfig("smtphost", isEmpty(conf.smtp_host.toString,"localhost"))»
+	«paramConfig("smtpport", isEmpty(conf.smtp_port,25))»
+	«paramConfig("smtpsecure",isEmpty(conf.smtp_security.getName(),"ssl"))»
 	'''
 	
 	def CharSequence genSystem_Conf(system_Conf systemconf)'''
-	Â«paramConfig("debug", valueParser(isEmpty(systemconf.debug_system,"no")))Â»
-	Â«paramConfig("debug_lang", valueParser(isEmpty(systemconf.debug_language,"no")))Â»
-	Â«paramConfig("caching", valueParser(isEmpty(systemconf.caching.toString,"off-caching disabled")))Â»
-	Â«paramConfig("cache_handler", valueParser(isEmpty(systemconf.cache_handler.toString,"file")))Â»
-	Â«paramConfig("cachetime", isEmpty(systemconf.cache_time, 150))Â»
-	Â«paramConfig("lifetime", isEmpty(systemconf.session_lifetime, 150))Â»
-	Â«paramConfig("session_handler","database")Â»
-	Â«paramConfig("log_path","/var/logs")Â»
-	Â«paramConfig("helpurl", "http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}")Â»
-	Â«paramConfig("force_ssl",valueParser(isEmpty(systemconf.force_ssl.toString, "none")))Â»
-	Â«paramConfig("offset", isEmpty(searchattribut(systemconf.server_time_zone,"country"),"UTC"))Â»
-	Â«paramConfig("tmp_path","/tmp")Â»
-	Â«paramConfig("gzip", valueParser("no"))Â»
-	Â«paramConfig("error_reporting", valueParser(isEmpty(systemconf.error_reporting_type.toString, "default")))Â»
+	«paramConfig("debug", valueParser(isEmpty(systemconf.debug_system,"no")))»
+	«paramConfig("debug_lang", valueParser(isEmpty(systemconf.debug_language,"no")))»
+	«paramConfig("caching", valueParser(isEmpty(systemconf.caching.toString,"off-caching disabled")))»
+	«paramConfig("cache_handler", valueParser(isEmpty(systemconf.cache_handler.toString,"file")))»
+	«paramConfig("cachetime", isEmpty(systemconf.cache_time, 150))»
+	«paramConfig("lifetime", isEmpty(systemconf.session_lifetime, 150))»
+	«paramConfig("session_handler","database")»
+	«paramConfig("log_path","/var/logs")»
+	«paramConfig("helpurl", "http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}")»
+	«paramConfig("force_ssl",valueParser(isEmpty(systemconf.force_ssl.toString, "none")))»
+	«paramConfig("offset", isEmpty(searchattribut(systemconf.server_time_zone,"country"),"UTC"))»
+	«paramConfig("tmp_path","/tmp")»
+	«paramConfig("gzip", valueParser("no"))»
+	«paramConfig("error_reporting", valueParser(isEmpty(systemconf.error_reporting_type.toString, "default")))»
 	public $live_site = '';
 	public $secret = 'DZk2H9y3q3eYDYob';
 	'''
