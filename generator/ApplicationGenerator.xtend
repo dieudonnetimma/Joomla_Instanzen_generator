@@ -12,7 +12,7 @@ import de.thm.icampus.cjsl.cjsl.TimeZone
 import de.thm.icampus.cjsl.cjsl.UserGroup
 import de.thm.icampus.cjsl.cjsl.ViewLevel
 import de.thm.icampus.cjsl.cjsl.ViewLevelRights
-import de.thm.icampus.cjsl.generator.Util
+
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.File
@@ -31,7 +31,7 @@ import org.eclipse.emf.ecore.EObject
 
 abstract class ApplicationGenerator {
 	
-var Util uti = new Util
+var Baum uti = new Baum
 	
 	def String isEmpty(String paramsValue, String defaultval){
 		
@@ -418,10 +418,6 @@ public def  String genaratePass(){
 			switch (attribut) {
 			case "name":
 			  return elem.name
-			 case "rgt":
-			  return elem.rgt + ""
-			 case "lft":
-			  return elem.lft + ""
 			default  :
 				return " "
 				

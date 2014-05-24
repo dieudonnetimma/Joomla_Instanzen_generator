@@ -37,10 +37,10 @@ new( Application apps) {
   «FOR user : allusers»
   «IF(user.equals(allusers.get(allusers.size-1)))»
   (« indexOf(user,allusers,200,0)»,'«user.fullname»', '«user.name»', '«user.email»', '«genaratePass»', ' ', '«valueParser(isEmpty(user.blocked,'no'))»', '«valueParser(isEmpty(user.receiveSystemMail,'no'))
-  	»', '«searchDateTime()»', '0000-00-00 00:00:00','0','{"admin_style":"«getTemplateid(user.backendTemplateStyle, conf.template)»","admin_language":"«selectedLanguage(user.backendLanguage)»","language":"«selectedLanguage(user.frontendLanguage)»","editor":"«selectedEdit(user.editor)»","helpsite":"http:\/\/help.joomla.org\/proxy\/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}","timezone":"«isEmpty(searchattribut(user.time_zone,"continent"),"de")»"\\/"«isEmpty(searchattribut(user.time_zone,"country"),"DE")»"}','0000-00-00 00:00:00','0');
+  	»', '«searchDateTime()»', '0000-00-00 00:00:00','0','{"admin_style":"«getTemplateid(user.backendTemplateStyle, conf.template)»","admin_language":"«selectedLanguage(user.backendLanguage)»","language":"«selectedLanguage(user.frontendLanguage)»","editor":"«selectedEdit(user.editor)»","helpsite":"http:\/\/help.joomla.org\/proxy\/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}","timezone":"«isEmpty(searchattribut(user.time_zone,"continent"),"de")»"\/"«isEmpty(searchattribut(user.time_zone,"country"),"DE")»"}','0000-00-00 00:00:00','0');
   «ELSE»
    («indexOf(user,allusers,200,0)»,'«user.fullname»', '«user.name»', '«user.email»', '«genaratePass»', ' ', '«valueParser(isEmpty(user.blocked,'no'))»', '«valueParser(isEmpty(user.receiveSystemMail,'no'))
-  	»', '«searchDateTime()»', '0000-00-00 00:00:00','0','{"admin_style":"«getTemplateid(user.backendTemplateStyle, conf.template)»","admin_language":"«selectedLanguage(user.backendLanguage)»","language":"«selectedLanguage(user.frontendLanguage)»","editor":"«selectedEdit(user.editor)»","helpsite":"http:\/\/help.joomla.org\/proxy\/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}","timezone":"«isEmpty(searchattribut(user.time_zone,"continent"),"de")»"\\/"«isEmpty(searchattribut(user.time_zone,"country"),"DE")»"}','0000-00-00 00:00:00','0'),
+  	»', '«searchDateTime()»', '0000-00-00 00:00:00','0','{"admin_style":"«getTemplateid(user.backendTemplateStyle, conf.template)»","admin_language":"«selectedLanguage(user.backendLanguage)»","language":"«selectedLanguage(user.frontendLanguage)»","editor":"«selectedEdit(user.editor)»","helpsite":"http:\/\/help.joomla.org\/proxy\/index.php?option=com_help&keyref=Help{major}{minor}:{keyref}","timezone":"«isEmpty(searchattribut(user.time_zone,"continent"),"de")»"\/"«isEmpty(searchattribut(user.time_zone,"country"),"DE")»"}','0000-00-00 00:00:00','0'),
   «ENDIF»
   «ENDFOR»'''
   
@@ -50,7 +50,7 @@ new( Application apps) {
    «FOR user : allusers»
     «var int counter =0»
    «FOR attribut: user.userProfile.userAttribute»
-   «IF(attribut.equals(user.userProfile.userAttribute.get(user.userProfile.userAttribute.size -1)))»
+   «IF(attribut.equals(allusers.get(allusers.size-1).userProfile.userAttribute.get(allusers.get(allusers.size-1).userProfile.userAttribute.size -1)))»
    ('«indexOf(user,allusers,200,0)»', 'profile.«attribut.name»', '«attribut.value»', '«counter=counter+1»');
    «ELSE»
     ('«indexOf(user,allusers,200,0)»', 'profile.«attribut.name»', '«attribut.value»', '«counter=counter+1»'),
@@ -74,6 +74,7 @@ new( Application apps) {
    public def CharSequence generateUserGroupsMap()'''
    
    INSERT INTO `#__user_usergroup_map` (`user_id`, `group_id`) VALUES 
+   ('« indexOf(allusers.get(0), allusers,200,0)»','8'),
     «FOR user : allusers»
     «FOR group: groups»
     «IF user.usergroup.contains(group)»

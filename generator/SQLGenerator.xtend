@@ -18,6 +18,7 @@ class SQLGenerator extends ApplicationGenerator {
 	public cJSL_Configuration config;
 	public db_Conf dbconfig
 	public UserGenerator users 
+	public Installationgen install = new Installationgen
 	new (IFileSystemAccess acc, Application app, String appname){
 		
 		this.fpa = acc;
@@ -35,31 +36,36 @@ new(IFileSystemAccess access, Application application) {
 	
 	def generateSQLData() {
 		
-		fpa.generateFile("mddsql/application.sql", contentGen())
-		fpa.generateFile("mddsql/user.sql", usercontengen())
+		fpa.generateFile("mddsql/com/application.sql", contentGen())
+		fpa.generateFile("mddsql/com/user.sql", usercontengen())
 		deleteFolder(new File(pathDestinationRoot+"/installation"))
+		fpa.generateFile("includes/framework.php", install.overWriteFramework)
+		fpa.generateFile("mddsql/definemdd.php", install.defineDefine)
+		fpa.generateFile("mddsql/com/databasemdd.php",install.defineDatabaseMDD)
+		fpa.generateFile("mddsql/login.php",install.defineFormular)
+		fpa.generateFile("mddsql/index.php", defineIndex )
 	}
 
 def CharSequence usercontengen()'''
 #--------------------------------------------------------------User-----------------------------------------------------------
-	« users.generateAllUser»
+	Â« users.generateAllUserÂ»
 	
-	«users.generateUserProfile»
-	«users.generateGroups(transformArtefact(app.cjsl_user.usergroups))»
-	«users.generateUserGroupsMap»
-	«users.generateViewLevel»
+	Â«users.generateUserProfileÂ»
+	Â«users.generateGroups(transformArtefact(app.cjsl_user.usergroups))Â»
+	Â«users.generateUserGroupsMapÂ»
+	Â«users.generateViewLevelÂ»
 '''
 	
 	
 	def CharSequence contentGen()'''
-	«if (dbconfig.dbtype.toString.equals("mysql") || dbconfig.dbtype.toString.equals("mysqli")) 
-	readSql(pathDestinationRoot+"/installation/sql/mysql/joomla.sql") »
-	«if (dbconfig.dbtype.toString.equals("sqlsrv")) 
-	readSql(pathDestinationRoot+"/installation/sql/sqlazure/joomla.sql") »
-	«IF (config.website_conf.exampledata.equals("yes"))»
+	Â«if (dbconfig.dbtype.toString.equals("mysql") || dbconfig.dbtype.toString.equals("mysqli")) 
+	readSql(pathDestinationRoot+"/installation/sql/mysql/joomla.sql") Â»
+	Â«if (dbconfig.dbtype.toString.equals("sqlsrv")) 
+	readSql(pathDestinationRoot+"/installation/sql/sqlazure/joomla.sql") Â»
+	Â«IF (config.website_conf.exampledata.equals("yes"))Â»
 	#--------------------------------------------------------------Sample Data ---------------------------------------------------
-	«readSql(pathDestinationRoot+"/installation/sql/mysql/sample_data.sql")»
-	«ENDIF»
+	Â«readSql(pathDestinationRoot+"/installation/sql/mysql/sample_data.sql")Â»
+	Â«ENDIFÂ»
 	'''
 	
 	def String readSql( String path){
@@ -77,5 +83,60 @@ def CharSequence usercontengen()'''
     
     return result.toString
 	}
+
+def CharSequence defineIndex()'''
+<?php
+
+require_once 'definemdd.php';
+require_once 'com/databasemdd.php';
+
+if (!file_exists(JPATH_MDD.'/com/application.sql')) {
+   header('Location:'.substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'mddsql/index.php')).'index.php');
+		exit();
+}
+
+
+$classData = new DatabaseMdd();
+
+$options =  array(
+		'db_type' =>'Â«dbconfig.dbtype.toStringÂ»',
+		'db_host' => 'Â«dbconfig.hostÂ»',
+		'db_name' => 'Â«dbconfig.databaseÂ»',
+		'db_prefix' => 'Â«dbconfig.prefixÂ»_',
+		'db_created' => null,
+		'db_user' => 'Â«dbconfig.userÂ»',
+		'db_pass' => 'Â«dbconfig.passwordÂ»',
+		'schema' => 'com/application.sql',
+		'user_schema' => 'com/user.sql'
+);
+
+
+
+if(!empty($_GET['username'] ) && !empty($_GET['pass'])){
+
+	$userpass = $_GET['pass'];
+	$salt = sha1(32);
+	$passmD5 = md5($userpass.$salt);
+
+$pass = $passmD5.':'.$salt;
+
+$classData->initialise($options);
+
+
+$newdb = DatabaseMdd::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+$newdb->setQuery("update  #__users set password='$pass'where username= 'Â«app.cjsl_user.user.get(0).nameÂ»'" );
+$re = $newdb->execute();
+
+echo '<h3 style="color:green;"> Der neue Passwort wurde gespeichert</h3>';
+sleep(10);
+while(JFolder::delete(JPATH_MDD."/com")){};
+header('Location:'.substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'mddsql/index.php')).'index.php');
+exit();
+}else{
+	header('Location: '.substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')).'login.php');
+	exit();
+
+}
+'''
 	
 }
