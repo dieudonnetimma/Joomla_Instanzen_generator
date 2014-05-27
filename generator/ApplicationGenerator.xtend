@@ -27,11 +27,28 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import org.eclipse.emf.common.util.BasicEList
 import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EObjectimport java.io.FileReader
+import java.io.BufferedReader
 
 abstract class ApplicationGenerator {
 	
 var Baum uti = new Baum
+
+def String readSql( String path){
+	var FileReader fr = new FileReader(path);
+    var BufferedReader br = new BufferedReader(fr);
+    
+    var StringBuffer result = new StringBuffer()
+    var String line = br.readLine
+    while(line != null){
+    	result.append(line +"\n")
+    	line = br.readLine
+    }
+
+    br.close();
+    
+    return result.toString
+	}
 	
 	def String isEmpty(String paramsValue, String defaultval){
 		

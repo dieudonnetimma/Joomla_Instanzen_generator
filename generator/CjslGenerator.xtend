@@ -59,7 +59,7 @@ public final static String DEFAULT_OUTPUT_ONCE = "DEFAULT_OUTPUT_ONCE";
 	 		counter = counter +1
 	 	}
 	 	 var ConfigGenerator conf = new ConfigGenerator(genData, e)
-	 	var SQLGenerator sqldata = new SQLGenerator(genData, e,appsname ) 
+	 	var OneInstanzGenerator sqldata = new OneInstanzGenerator(genData, e,appsname ) 
 	 	genData.setOutputConfigurations(mapOutputConfigurations(appsname, e.applicationPath))
 	 	if(joomlaPath.exists){
 	 	conf.extractArchive(joomlaPath,applicationDestinatination )

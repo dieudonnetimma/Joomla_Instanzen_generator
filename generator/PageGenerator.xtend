@@ -4,11 +4,13 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import de.thm.icampus.cjsl.cjsl.Application
 import de.thm.icampus.cjsl.cjsl.cJSL_Page
 
-class PageGenerator extends SQLGenerator {
-	
+class PageGenerator extends ApplicationGenerator {
+	IFileSystemAccess acc
+	 Application app
 	cJSL_Page pages 
-	new(IFileSystemAccess acc, Application app) {
-		super(acc, app)
+	new(IFileSystemAccess newacc, Application newapp) {
+		app = newapp
+		acc = newacc
 		pages = app.cjsl_page
 	}
 	

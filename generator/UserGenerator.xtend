@@ -10,7 +10,11 @@ import java.util.logging.Handler
 import java.util.HashMap
 
 class UserGenerator extends ApplicationGenerator {
-	
+	/**
+	 * Index of User begin of 200
+	 * 
+	 * Index of Group begin of 9
+	 */
 	
 	EList<User> allusers
 	cJSL_Configuration conf
@@ -18,8 +22,7 @@ class UserGenerator extends ApplicationGenerator {
 	EList<UserGroup> groups
 	EList<ViewLevel> views
 	 AccessGenerator access 
-	int startIndexUser
-	int startIndexGroup
+
 
 new( Application apps) {
 		
