@@ -9,6 +9,11 @@ import java.io.BufferedReader
 import de.thm.icampus.cjsl.cjsl.cJSL_Configuration
 import de.thm.icampus.cjsl.cjsl.db_Conf
 import java.io.File
+import org.eclipse.emf.common.util.EList
+import de.thm.icampus.cjsl.cjsl.CoreAccessLevel
+import java.util.List
+import org.eclipse.emf.ecore.EObject
+import java.util.Iterator
 
 class SQLGenerator extends ApplicationGenerator {
 	
@@ -44,7 +49,13 @@ new(IFileSystemAccess access, Application application) {
 		fpa.generateFile("mddsql/com/databasemdd.php",install.defineDatabaseMDD)
 		fpa.generateFile("mddsql/login.php",install.defineFormular)
 		fpa.generateFile("mddsql/index.php", defineIndex )
+		//fpa.generateFile("mddsql/test.sql", testgen() )
 	}
+//	def CharSequence testgen(){
+//	
+//	
+//	return users.generateGroupsCoreAcess
+//	}
 
 def CharSequence usercontengen()'''
 #--------------------------------------------------------------User-----------------------------------------------------------
@@ -54,6 +65,7 @@ def CharSequence usercontengen()'''
 	«users.generateGroups(transformArtefact(app.cjsl_user.usergroups))»
 	«users.generateUserGroupsMap»
 	«users.generateViewLevel»
+	«users.generateGroupsCoreAcess»
 '''
 	
 	

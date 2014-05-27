@@ -17,6 +17,7 @@ class UserGenerator extends ApplicationGenerator {
 	Application app
 	EList<UserGroup> groups
 	EList<ViewLevel> views
+	 AccessGenerator access 
 	int startIndexUser
 	int startIndexGroup
 
@@ -27,6 +28,7 @@ new( Application apps) {
 		conf= apps.cjsl_configuration
 		groups = apps.cjsl_user.usergroups
 		views= apps.cjsl_user.viewlevel
+		access = new AccessGenerator(app);
 		
 	}
 	 
@@ -99,8 +101,17 @@ new( Application apps) {
    «ENDFOR»'''
    
    public def CharSequence generateGroupsCoreAcess()'''
-   UPDATE `#__assets` SET 
-   `rules` = 
+   UPDATE #__assets SET 
+   rules = 
+   '{
+   	«FOR aktion: access.aktion»
+   	«IF(access.aktion.get(access.aktion.length-1)==aktion)»
+   	"«access.nameOfCoreaccess(aktion)»":{«access.getAcessForComUser(aktion, groups,9)»}
+   	«ELSE»
+   	"«access.nameOfCoreaccess(aktion)»":{«access.getAcessForComUser(aktion, groups,9)»},
+   	«ENDIF»
+   	«ENDFOR»
+   }' WHERE id =24;
    '''
    
    public def String searchGroupsIDForViewLevel(ViewLevel level){
