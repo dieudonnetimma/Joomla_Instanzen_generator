@@ -715,8 +715,8 @@ max-width: 500px
        <center> <div id="mainarticle">
         <form action="<?php echo "index.php";?>" method="get" >
        <table>
-       <tr><td><h1 >Benutzer Name:  </h1></td><td><input type="text"  autocomplete="on" title="Benutzer Name" name="username" min="155"></input></td></tr>
-       <tr><td><h1 >Benutzer PassWord:  </h1></td><td><input type="password" name="pass" title="Benutzer Password" min="155"></td></tr>
+       <tr><td><h1 >Benutzername:  </h1></td><td><input type="text"  autocomplete="on" title="Benutzer Name" name="username" min="155"></input></td></tr>
+       <tr><td><h1 >Passwort:  </h1></td><td><input type="password" name="pass" title="Benutzer Password" min="155"></td></tr>
     </table>
       <input type="submit" value="schicken" name="submit" >
       </form>
