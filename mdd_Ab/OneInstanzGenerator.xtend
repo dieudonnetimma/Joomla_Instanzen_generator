@@ -16,7 +16,8 @@ class OneInstanzGenerator extends ApplicationLibrary {
 	public UserGenerator users 
 	public Installationgen install = new Installationgen
 	public FileUtil fileUtil = new FileUtil 
-	new (IFileSystemAccess acc, Application app, String appname){
+	public Boolean newInstallation
+	new (IFileSystemAccess acc, Application app, String appname, Boolean installation){
 		
 		this.fpa = acc;
 		this.app = app;
@@ -24,6 +25,7 @@ class OneInstanzGenerator extends ApplicationLibrary {
 		dbconfig = config.db_conf
 		pathDestinationRoot = app.applicationPath + "/" +appname
 		users = new UserGenerator(app)
+		newInstallation = installation
 		}
 
 new(IFileSystemAccess access, Application application) {
@@ -32,10 +34,12 @@ new(IFileSystemAccess access, Application application) {
 
 	
 	def generateSQLData() {
+		if(newInstallation){
+			fpa.generateFile("mddinstallation/com/application.sql", contentGen())
+			deleteFolder(new File(pathDestinationRoot+"/installation"))
+		}
 		
-		fpa.generateFile("mddinstallation/com/application.sql", contentGen())
 		fpa.generateFile("mddinstallation/com/user.sql", usercontengen())
-		deleteFolder(new File(pathDestinationRoot+"/installation"))
 		fpa.generateFile("includes/framework.php", install.overWriteFramework)
 		fpa.generateFile("mddinstallation/definemdd.php", install.defineDefine)
 		fpa.generateFile("mddinstallation/databasemdd.php",install.defineDatabaseMDD)

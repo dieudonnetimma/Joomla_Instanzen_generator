@@ -55,7 +55,7 @@ public final static String DEFAULT_OUTPUT_ONCE = "DEFAULT_OUTPUT_ONCE";
 	 	var File joomlaPath = new File(e.joomlaPath)
 	 	var String appsname = e.name
 	 	var File applicationDestinatination = new File(e.applicationPath + "/" + appsname) 
-	 	var File installFile = new File(applicationDestinatination + "/" +"mddinstallation/com")
+	 	var File installFile = new File(applicationDestinatination.path + "/" +"mddinstallation/com")
 	 	var boolean newInstallation = false
 	 	
 	 	if(!applicationDestinatination.exists){
@@ -64,14 +64,16 @@ public final static String DEFAULT_OUTPUT_ONCE = "DEFAULT_OUTPUT_ONCE";
 	 	var int counter = 1
 	 	while((installFile.exists == false)  && (applicationDestinatination.exists)){
 	 		appsname = e.name + "_" + counter
-	 		applicationDestinatination = new File(e.applicationPath + "/" + appsname) 
+	 		applicationDestinatination = new File(e.applicationPath + "/" + appsname)
+	 		installFile = new File(applicationDestinatination.path + "/" +"mddinstallation/com") 
 	 		counter = counter +1
 	 		
 	 	}
+	 	if(installFile.exists==false)
 	 	newInstallation = true
 	 	}
 	 	var ConfigGenerator conf = new ConfigGenerator(genData, e)
-	 	var OneInstanzGenerator sqldata = new OneInstanzGenerator(genData, e,appsname ) 
+	 	var OneInstanzGenerator sqldata = new OneInstanzGenerator(genData, e,appsname,newInstallation ) 
 	 	genData.setOutputConfigurations(mapOutputConfigurations(appsname, e.applicationPath))
 	 	if(joomlaPath.exists){
 	 	if(newInstallation){
