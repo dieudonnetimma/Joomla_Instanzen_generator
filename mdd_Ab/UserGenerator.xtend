@@ -32,6 +32,7 @@ new( Application apps) {
 		groups = apps.cjsl_user.usergroups
 		views= apps.cjsl_user.viewlevel
 		access = new AccessGenerator(app);
+		allusers.add(0,conf.website_conf.superadmin)
 		
 	}
 	 
@@ -54,13 +55,15 @@ new( Application apps) {
   INSERT INTO `#__user_profiles` (`user_id`, `profile_key`, `profile_value`, `ordering`) VALUES
    «FOR user : allusers»
     «var int counter =0»
+    «IF (user.userProfile != null)»
    «FOR attribut: user.userProfile.userAttribute»
    «IF(attribut.equals(allusers.get(allusers.size-1).userProfile.userAttribute.get(allusers.get(allusers.size-1).userProfile.userAttribute.size -1)))»
-   ('«indexOf(user,allusers,200,0)»', 'profile.«attribut.name»', '«attribut.value»', '«counter=counter+1»');
+    ('«indexOf(user,allusers,200,0)»', 'profile.«attribut.name»', '«attribut.value»', '«counter=counter+1»');
    «ELSE»
     ('«indexOf(user,allusers,200,0)»', 'profile.«attribut.name»', '«attribut.value»', '«counter=counter+1»'),
    «ENDIF»
    «ENDFOR»
+   «ENDIF»
    «ENDFOR»'''
    
    public def CharSequence generateGroups(EList<TreeElement> baum)'''
@@ -82,7 +85,7 @@ new( Application apps) {
    ('« indexOf(allusers.get(0), allusers,200,0)»','8'),
     «FOR user : allusers»
     «FOR group: groups»
-    «IF user.usergroup.contains(group)»
+    «IF user.usergroup!= null && user.usergroup.contains(group)»
     «IF(user.equals(allusers.get(allusers.size-1)))»
     ('«indexOf(user,allusers,200,0)»', '«indexOf(group,groups,9,1)»');
   	«ELSE»
