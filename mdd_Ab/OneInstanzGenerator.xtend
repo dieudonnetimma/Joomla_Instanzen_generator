@@ -33,7 +33,7 @@ new(IFileSystemAccess access, Application application) {
 	}
 
 	
-	def generateSQLData() {
+	def generateInstanz() {
 		if(newInstallation){
 			fpa.generateFile("mddinstallation/com/application.sql", contentGen())
 			deleteFolder(new File(pathDestinationRoot+"/installation"))
@@ -45,13 +45,8 @@ new(IFileSystemAccess access, Application application) {
 		fpa.generateFile("mddinstallation/databasemdd.php",install.defineDatabaseMDD)
 		fpa.generateFile("mddinstallation/login.php",install.defineFormular)
 		fpa.generateFile("mddinstallation/index.php", install.defineIndex(dbconfig, app.cjsl_user.user.get(0)) )
-		//fpa.generateFile("mddsql/test.sql", testgen() )
 	}
-//	def CharSequence testgen(){
-//	
-//	
-//	return users.generateGroupsCoreAcess
-//	}
+
 
 def CharSequence usercontengen()'''
 #--------------------------------------------------------------User-----------------------------------------------------------

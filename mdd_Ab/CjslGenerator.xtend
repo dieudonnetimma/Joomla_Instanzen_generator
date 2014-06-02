@@ -80,7 +80,7 @@ public final static String DEFAULT_OUTPUT_ONCE = "DEFAULT_OUTPUT_ONCE";
 	 	fileUtil.extractArchive(joomlaPath,applicationDestinatination)
 	 	}
 	 	conf.generateConfig
-	 	sqldata.generateSQLData
+	 	sqldata.generateInstanz
 	 	}
 	 	else{
 	 		throw new FileNotFoundException("The Source Path of Joomla not found")

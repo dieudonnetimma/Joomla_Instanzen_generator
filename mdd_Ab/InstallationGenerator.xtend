@@ -349,22 +349,6 @@ class DatabaseMdd{
 			// Set the character set to UTF-8 for pre-existing databases.
 			$this->setDatabaseCharset($db, $options->db_name);
 
-
-
-// 			// Set the appropriate schema script based on UTF-8 support.
-// 			if ($type == 'mysqli' || $type == 'mysql')
-// 			{
-// 				$schema = 'sql/mysql/joomla.sql';
-// 			}
-// 			elseif ($type == 'sqlsrv' || $type == 'sqlazure')
-// 			{
-// 				$schema = 'sql/sqlazure/joomla.sql';
-// 			}
-// 			else
-// 			{
-// 				$schema = 'sql/'. $type . '/joomla.sql';
-// 			}
-
             $schema = $options->schema;
 			// Check if the schema is a valid file
 			if (!JFile::exists($schema)) {
@@ -705,7 +689,7 @@ max-width: 500px
 
 
   <div id="header">
-    <center><img width="541" height="180" src="thm_logo.png" alt="THM" /></center>
+    <center><img width="541" height="180" src="https://webmail.thm.de/images/THM_Logo_4c-transparent.png" alt="THM" /></center>
   </div>
 
   <div id="mainwrapper">
