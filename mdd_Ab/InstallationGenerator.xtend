@@ -651,7 +651,7 @@ def CharSequence defineFormular()'''
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>HTML-Test</title>
+    <title>Joomla! Installation</title>
     <link rel="stylesheet" type="text/css" href="login.css"/>
     <style type="text/css">
     
@@ -697,12 +697,14 @@ max-width: 500px
     <div id="contentwrapper">
 
        <center> <div id="mainarticle">
+       <h1>MDD Joomla! Installation</h1>
+       bitte geben Sie den Name und das neue Passwort des Super Administrator an!
         <form action="<?php echo "index.php";?>" method="get" >
        <table>
        <tr><td><h1 >Benutzername:  </h1></td><td><input type="text"  autocomplete="on" title="Benutzer Name" name="username" min="155"></input></td></tr>
        <tr><td><h1 >Passwort:  </h1></td><td><input type="password" name="pass" title="Benutzer Password" min="155"></td></tr>
     </table>
-      <input type="submit" value="schicken" name="submit" >
+      <input type="submit" value="absenden" name="submit" >
       </form>
            </div> </center>
       </div>
