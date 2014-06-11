@@ -6,6 +6,7 @@ import de.thm.icampus.cjsl.cjsl.cJSL_Menu
 import de.thm.icampus.cjsl.cjsl.Menu
 import de.thm.icampus.cjsl.cjsl.MenuItem
 import org.eclipse.emf.common.util.EList
+import de.thm.icampus.cjsl.cjsl.MenuRepresentation
 
 class MenuGenerator extends ApplicationLibrary {
 	/**
@@ -13,15 +14,20 @@ class MenuGenerator extends ApplicationLibrary {
 	 * 
 	 * Index of Menuitem begin of 102
 	 */
-	IFileSystemAccess acc
+	
 	 Application app
 	EList<Menu> allmenus
-	
-	new(IFileSystemAccess newacc, Application newapp) {
-		acc = newacc
+	EList<MenuRepresentation> allmodul
+	int menuStartid
+	int menuItemStart
+	int modulStartid
+	new( Application newapp, int menuStartindex, int menuItemStartIndex, int modulStartIndex) {
 		app= newapp
 		allmenus = app.cjsl_menu.menu
-		
+		allmodul=  app.cjsl_menu.menuRepresentation
+		menuStartid = menuStartindex
+		menuItemStart = menuItemStartIndex
+		modulStartid = modulStartIndex
 	}
 	
 	public def CharSequence  genMenus()'''
@@ -40,4 +46,13 @@ class MenuGenerator extends ApplicationLibrary {
 	'''
 	public def CharSequence  genMenuRepresentation()'''
 	'''
+	
+	 public def int getMaxMenuIndex(){
+   	return menuStartid + allmenus.size
+   }
+   
+    public def int getMaxModulIndex(){
+   	return modulStartid + allmodul.size
+   	
+   }
 }

@@ -15,7 +15,7 @@ import java.util.Enumeration
 
 class FileUtil {
 	/**
- * copy the content of a directory to a destination
+ * copy the content of a directory to a destination 
  * 
  * @param File source
  * @param File destination

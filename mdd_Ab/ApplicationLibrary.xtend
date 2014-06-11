@@ -32,6 +32,7 @@ import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.FileInputStream
+import de.thm.icampus.cjsl.cjsl.LanguageTypeWithAll
 
 /**
  * This class Content many Function to generate Code
@@ -290,7 +291,21 @@ def  int getTemplateid(Template temp, EList<Template> listTemplate){
 		
 	}
 	
-	/**
+ public def String selectedLanguageAll(LanguageTypeWithAll lang){
+ 	
+ 	if(lang == null)
+ 	return "*"
+ 	
+ 	if(lang.eClass.name.equals("LanguageType")){
+ 		var LanguageType l = lang as LanguageType
+ 	  return selectedLanguage(l)
+ 	  
+ 	  }
+ 	  
+ 	  return "*"
+ }
+	
+/**
  * search the Type of a LanguageType and return the name
  * 
  * @param LanguageType lang

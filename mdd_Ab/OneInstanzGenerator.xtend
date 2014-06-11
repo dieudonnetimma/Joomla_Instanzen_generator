@@ -24,13 +24,10 @@ class OneInstanzGenerator extends ApplicationLibrary {
 		this.config = app.cjsl_configuration
 		dbconfig = config.db_conf
 		pathDestinationRoot = app.applicationPath + "/" +appname
-		users = new UserGenerator(app)
+		users = new UserGenerator(app,200,9,4)
 		newInstallation = installation
 		}
 
-new(IFileSystemAccess access, Application application) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
 
 	
 	def generateInstanz() {
@@ -45,8 +42,13 @@ new(IFileSystemAccess access, Application application) {
 		fpa.generateFile("mddinstallation/databasemdd.php",install.defineDatabaseMDD)
 		fpa.generateFile("mddinstallation/login.php",install.defineFormular)
 		fpa.generateFile("mddinstallation/index.php", install.defineIndex(dbconfig, app.cjsl_user.user.get(0)) )
+		//fpa.generateFile("mddsql/test.sql", testgen() )
 	}
-
+//	def CharSequence testgen(){
+//	
+//	
+//	return users.generateGroupsCoreAcess
+//	}
 
 def CharSequence usercontengen()'''
 #--------------------------------------------------------------User-----------------------------------------------------------
